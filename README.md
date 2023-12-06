@@ -17,3 +17,7 @@
 - Weather information
 - Space information
 - Jokes
+
+## Note
+
+This is a complete Client-side website and is not best practise. Backend is in works.
