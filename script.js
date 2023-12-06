@@ -106,7 +106,7 @@ async function sendMessage() {
 
         displayMessage("You", query);
 
-        if (query == ("hello") || query == ("hey") || query == ("hi")) {
+        if (query.toLowerCase() == ("hello") || query.toLowerCase() == ("hey") || query.toLowerCase() == ("hi")) {
             response = "Hello Sir, how may I help you today ?";
             // setTimeout(() => {
             displayMessage("Euphoria", response);
