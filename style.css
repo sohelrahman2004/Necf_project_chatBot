@@ -329,6 +329,10 @@ a {
         transform: translate(-50%, -50%);
     }
 
+    .fa-history {
+        top: 6rem;
+    }
+
     .title img {
         display: none;
     }
