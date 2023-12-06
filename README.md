@@ -1,13 +1,13 @@
-#EUPHORIA
+# EUPHORIA
 
 - A ChatGPT clone, powered by OpenAI API
 
-##Features
+## Features
 
 - Beautiful UI
 - Logs History
 
-##Work in Progress
+## Work in Progress
 
 - Opening websites
 - Voice Recognition
