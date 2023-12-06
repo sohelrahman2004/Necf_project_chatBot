@@ -3,7 +3,6 @@ const container = document.querySelector('.container');
 const userMessage = document.querySelector('#userMessage');
 const sampleQueries = document.querySelectorAll('.container > div')
 
-const openAiApiKey = "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";
 const googleSearchApiKey = "AIzaSyDMpl_TDQNh3v4NI7bHe3ArCm5rxE_vk3w";
 const cx = "672ad82a944ee4d61";
 
