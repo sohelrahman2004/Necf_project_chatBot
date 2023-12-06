@@ -10,4 +10,6 @@
 ## Work in Progress
 
 - Opening websites
+- Wikipedia search
+- Weather information
 - Voice Recognition
