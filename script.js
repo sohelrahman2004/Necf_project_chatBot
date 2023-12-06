@@ -5,10 +5,23 @@ const sampleQueries = document.querySelectorAll('.container > div')
 const apiKey = "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";
 const showHistoryBtn = document.querySelector('.fa-history');
 const historyModal = document.querySelector('.history-modal');
+const historyContainerDOM = document.querySelectorAll('.history-container');
 
 showHistoryBtn.addEventListener('click', () => {
     historyModal.classList.toggle('active');
 })
+
+// historyContainerDOM.forEach(container => {
+//     container.addEventListener('click', () => {
+//         console.log("ok");
+//         historyModal.classList.remove('active');
+//     })
+// })
+
+// historyModal.addEventListener('click', () => {
+//     historyModal.classList.remove('active');
+// })
+
 
 // Display user or chatbot message 
 function displayMessage(user, message) {
@@ -49,11 +62,15 @@ function displayMessage(user, message) {
         timeAdded.textContent = time;
         dateAdded.textContent = day.toString();
         historyMsg.textContent = message;
-
         historyContainer.appendChild(dateAdded);
         historyContainer.appendChild(timeAdded);
         historyContainer.appendChild(historyMsg);
         historyModal.appendChild(historyContainer);
+        historyContainer.addEventListener('click', () => {
+            userMessage.value = historyMsg.textContent;
+            historyModal.classList.remove('active');
+            sendBtn.click();
+        })
 
     }
 }
