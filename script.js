@@ -121,8 +121,8 @@ async function sendMessage() {
                 .then(data => {
                     const videoId = data.items[0].id.videoId;
                     const youtubeVideoUrl = `https://www.youtube.com/watch?v=${videoId}`;
-                    window.open(youtubeVideoUrl, '_blank');
-                    displayMessage("Euphoria", "Playing...")
+                    window.open(youtubeVideoUrl);
+                    displayMessage("Euphoria", "Playing...");
                 })
                 .catch(error => {
                     console.error('Error fetching YouTube API:', error);
