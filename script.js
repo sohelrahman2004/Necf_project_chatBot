@@ -70,6 +70,12 @@ function displayMessage(user, message) {
         })
 
     }
+    if (user == 'Euphoria') {
+        newMessage.style.backgroundColor = "rgba(0, 0, 0, 0.306)";
+        setTimeout(() => {
+            newMessage.style.backgroundColor = "transparent";
+        }, 1000);
+    }
 }
 
 // Send sample queries
@@ -129,20 +135,21 @@ async function sendMessage() {
         }
 
         let query;
+        let formattedQuery;
         let response;
 
         container.classList.add('chat-mode')
         query = userMessage.value;
+        formattedQuery = query.toLowerCase().trim();
         userMessage.value = "";
 
         displayMessage("You", query);
 
-        if (query.toLowerCase() == ("hello") || query.toLowerCase() == ("hey") || query.toLowerCase() == ("hi")) {
+        if (formattedQuery == ("hello") || formattedQuery == ("hey") || formattedQuery == ("hi")) {
             response = "Hello, how may I help you today ?";
             displayMessage("Euphoria", response);
             return;
         }
-
 
         if (containsMathExpression(query) && (query.toLowerCase().includes("what is") || query.toLowerCase().includes("calculate") || query.toLowerCase().includes("Evaluate"))) {
             const mathQuery = query.toLowerCase().replace("what is", "").replace("calculate", "").replace("evaluate", "");
@@ -179,7 +186,7 @@ async function sendMessage() {
                 });
             return;
         }
-        if (query.toLowerCase().includes('search') || query.toLowerCase().includes('google')) {
+        if (formattedQuery.includes('search') || formattedQuery.includes('google')) {
             query = query.replace("search", "").replace("for", "").replace("on", "").replace("google", "");
             displayMessage("Euphoria", `Searching "${query}"...`);
             const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
@@ -189,17 +196,22 @@ async function sendMessage() {
             return;
         }
 
-        if (query.toLowerCase().includes('how are you')) {
+        if (formattedQuery.includes('how are you')) {
             displayMessage('Euphoria', `I'm doing well. What can I help you with?`);
             return;
         }
-        if (query.toLowerCase().includes('who are you')) {
+        if (formattedQuery.includes('who are you') || formattedQuery.includes('introduce yourself') || formattedQuery.includes('your introduction')) {
             displayMessage('Euphoria', `I'm Euphoria, a chatBot powered by OpenAI and various other APIs. Is there anything I can help you with ?`);
             return;
         }
 
-        if (query.toLowerCase().includes('your name') && query.toLowerCase().includes('what')) {
+        if (formattedQuery.includes('your name') && formattedQuery.includes('what')) {
             displayMessage("Euphoria", `I'm Euphoria. Is there anything I can help you with?`);
+            return;
+        }
+
+        if (formattedQuery.includes('who is your creator') && formattedQuery.includes('who made you') || formattedQuery.includes('who are you made by') || formattedQuery.includes('who is ush') || formattedQuery.includes('who is ushnish') || formattedQuery.includes('ushnish') || formattedQuery == 'ush') {
+            displayMessage("Euphoria", `<a style="color:blueviolet;" href="https://github.com/plushexe351">Ushnish Tapaswi</a> is my creator. Is there anything I can help you with?`);
             return;
         }
 
@@ -229,7 +241,7 @@ async function sendMessage() {
 
                         console.log(snippet);
 
-                        if (query.toLowerCase().includes('open') && !query.toLowerCase().includes('openai')) {
+                        if (formattedQuery.includes('open') && !formattedQuery.includes('openai')) {
                             displayMessage("Euphoria", "Opening...")
                             setTimeout(() => {
                                 window.location.href = link;
@@ -244,7 +256,7 @@ async function sendMessage() {
                 console.error('Error fetching search results from Google:', error.message);
             }
         }
-        if (query == "clear") { container.innerHTML = ""; return; }
+        if (formattedQuery == "clear") { container.innerHTML = ""; return; }
     }
 }
 
