@@ -4,8 +4,7 @@ const userMessage = document.querySelector('#userMessage');
 const sampleQueries = document.querySelectorAll('.container > div')
 
 const openAiApiKey = "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";
-// const googleSearchApiKey = "AIzaSyDMpl_TDQNh3v4NI7bHe3ArCm5rxE_vk3w";
-const googleSearchApiKey = "AIzaSyCxcTqoUOX4mpQhV7hcHJoot_mDd1Sbi5s";
+const googleSearchApiKey = "AIzaSyDMpl_TDQNh3v4NI7bHe3ArCm5rxE_vk3w" || "AIzaSyCxcTqoUOX4mpQhV7hcHJoot_mDd1Sbi5s";
 const cx = "672ad82a944ee4d61";
 
 const showHistoryBtn = document.querySelector('.fa-history');
