@@ -71,9 +71,11 @@ function displayMessage(user, message) {
 
     }
     if (user == 'Euphoria') {
-        newMessage.style.backgroundColor = "rgba(0, 0, 0, 0.306)";
+        // newMessage.style.backgroundColor = "rgba(0, 0, 0, 0.306)";
+        newMessage.classList.add('highlight');
         setTimeout(() => {
-            newMessage.style.backgroundColor = "transparent";
+            // newMessage.style.backgroundColor = "transparent";
+            newMessage.classList.remove('highlight');
         }, 1000);
     }
 }
