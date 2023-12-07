@@ -88,6 +88,42 @@ sampleQueries.forEach(query => {
 
 // handle submit button and queries 
 
+async function fetchDarkJoke() {
+    const darkJokes = [
+        'I told my wife she should embrace her mistakes. She gave me a hug.',
+        `Why don't scientists trust atoms ? Because they make up everything, even the dark stuff.`,
+        `I asked the librarian if the library had books on paranoia. She whispered, "They're right behind you."`,
+        'I used to play piano by ear, but now I use my hands and fingers.',
+        'My wife told me I should embrace my mistakes. So I gave her a hug.',
+        `I only know 25 letters of the alphabet. I don’t know y and z.`,
+        `I asked the doctor for something to cure my kleptomania. He gave me pills and said, "If those don’t work, get me a TV."`,
+        `I'm reading a book on anti - gravity.It's impossible to put down.`,
+        `I told my computer I needed a break, and now it won’t stop sending me vacation ads.`,
+        `Why don’t skeletons fight each other? They don’t have the guts.`,
+    ];
+
+    const randomDarkJoke = darkJokes[Math.floor(Math.random() * darkJokes.length)];
+
+    return randomDarkJoke;
+}
+
+function calculate(query) {
+    try {
+        const result = math.evaluate(query);
+        return result;
+    } catch (error) {
+        return "Error in calculation";
+    }
+}
+
+function containsMathExpression(query) {
+    // Regular expression to check for a mathematical expression
+    const mathExpressionRegex = /[+\-*/\d()]/;
+
+    // Check if the query contains a mathematical expression
+    return mathExpressionRegex.test(query);
+}
+
 async function sendMessage() {
     if (userMessage.value != "") {
 
@@ -113,6 +149,22 @@ async function sendMessage() {
         }
 
 
+        if (containsMathExpression(query) && (query.toLowerCase().includes("what is") || query.toLowerCase().includes("calculate") || query.toLowerCase().includes("Evaluate"))) {
+            const mathQuery = query.toLowerCase().replace("what is", "").replace("calculate", "").replace("evaluate", "");
+            const mathResult = calculate(mathQuery);
+            displayMessage("Euphoria", `${mathQuery} = ${mathResult}`)
+            console.log(mathResult);
+            return;
+        }
+
+        if (query.toLowerCase().includes('tell me a joke') || (query.toLowerCase().includes('jokes') && query.toLowerCase().includes('say')) || ((query.toLowerCase().includes('jokes') || query.toLowerCase().includes('joke')) && query.toLowerCase().includes('tell'))) {
+            // Add a function to fetch a joke (you can use a joke API or a predefined list of jokes)
+            const joke = await fetchDarkJoke();
+            displayMessage('Euphoria', joke);
+            return;
+        }
+
+
         if (query.toLowerCase().includes('play') || (query.toLowerCase().includes('play') && query.toLowerCase().includes('youtube')) || (query.toLowerCase().includes('search') && query.toLowerCase().includes('youtube'))) {
             const youtubeSearchApiUrl = `https://www.googleapis.com/youtube/v3/search?q=${encodeURIComponent(query)}&part=snippet&key=AIzaSyAFrBrByQtCD-dbImaAkcJIvOwEyaG3eXA`;
 
@@ -121,7 +173,9 @@ async function sendMessage() {
                 .then(data => {
                     const videoId = data.items[0].id.videoId;
                     const youtubeVideoUrl = `https://www.youtube.com/watch?v=${videoId}`;
-                    window.open(youtubeVideoUrl);
+                    setTimeout(() => {
+                        window.location.href = youtubeVideoUrl;
+                    }, 500);
                     displayMessage("Euphoria", "Playing...");
                 })
                 .catch(error => {
@@ -136,7 +190,7 @@ async function sendMessage() {
             displayMessage("Euphoria", `Searching "${query}"...`);
             const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
             setTimeout(() => {
-                window.open(googleSearchUrl, '_blank');
+                window.location.href = googleSearchUrl;
             }, 700);
             return;
         }
@@ -173,24 +227,25 @@ async function sendMessage() {
                 const data = await response.json();
 
                 if (data.items && data.items.length > 0) {
+                    for (let i = 0; i < Math.min(2, data.items.length); i++) {
+                        const result = data.items[i];
+                        const title = result.title;
+                        const snippet = result.snippet;
+                        const link = result.link;
 
-                    const mostRelevantResult = data.items[0];
-                    const title = mostRelevantResult.title;
-                    const snippet = mostRelevantResult.snippet;
-                    const link = mostRelevantResult.link;
+                        console.log(snippet);
 
-                    console.log(snippet);
+                        if (query.toLowerCase().includes('open') && !query.toLowerCase().includes('openai')) {
+                            displayMessage("Euphoria", "Opening...")
+                            setTimeout(() => {
+                                window.location.href = link;
+                            }, 500);
+                            return;
+                        }
 
-
-                    if (query.toLowerCase().includes('open')) {
-                        displayMessage("Euphoria", "Opening...")
-                        window.open(link);
-                        return;
+                        displayMessage("Euphoria", `${snippet}` + `<br/>(${title})` + `<br/><a target="_blank" href="${link}" style="color:blueviolet">Click here to view full result on Google</a>`);
                     }
-                    displayMessage("Euphoria", `${snippet}` + `<br/>(${title})` + `<br/><a target="_blank" href="${link}"style="color:blueviolet">Click here to view full result on Google</a>`);
                 }
-                // Now "data" contains the search results from Google
-                console.log(data);
             } catch (error) {
                 console.error('Error fetching search results from Google:', error.message);
             }
