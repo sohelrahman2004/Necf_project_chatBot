@@ -7,11 +7,11 @@
 - Beautiful UI
 - Opening websites
 - OpenAI integration (queries are google searched if no response from OpenAI due to insufficient quota/usage)
-- Fetch most relevant Google search result using Google Custom Search API
+- Fetching most relevant Google search results using Google Custom Search API
 - Searching/Playing Songs on Youtube using Youtube Data Search API
-- Can tell Jokes
+- Telling Jokes
 - Accurate calculations using math.js library
-- Logs History where queries can be revisited
+- Logging history where queries can be revisited
 
 ### Work in Progress
 
