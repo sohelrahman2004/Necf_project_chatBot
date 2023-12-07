@@ -117,10 +117,8 @@ function calculate(query) {
 }
 
 function containsMathExpression(query) {
-    // Regular expression to check for a mathematical expression
-    const mathExpressionRegex = /[+\-*/\d()]/;
 
-    // Check if the query contains a mathematical expression
+    const mathExpressionRegex = /[+\-*/\d()]/;
     return mathExpressionRegex.test(query);
 }
 
@@ -142,9 +140,7 @@ async function sendMessage() {
 
         if (query.toLowerCase() == ("hello") || query.toLowerCase() == ("hey") || query.toLowerCase() == ("hi")) {
             response = "Hello, how may I help you today ?";
-            // setTimeout(() => {
             displayMessage("Euphoria", response);
-            // }, 1000);
             return;
         }
 
@@ -158,7 +154,6 @@ async function sendMessage() {
         }
 
         if (query.toLowerCase().includes('tell me a joke') || (query.toLowerCase().includes('jokes') && query.toLowerCase().includes('say')) || ((query.toLowerCase().includes('jokes') || query.toLowerCase().includes('joke')) && query.toLowerCase().includes('tell'))) {
-            // Add a function to fetch a joke (you can use a joke API or a predefined list of jokes)
             const joke = await fetchDarkJoke();
             displayMessage('Euphoria', joke);
             return;
