@@ -3,10 +3,6 @@ const container = document.querySelector('.container');
 const userMessage = document.querySelector('#userMessage');
 const sampleQueries = document.querySelectorAll('.container > div')
 
-const openAiApiKey = "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";
-const googleSearchApiKey = "AIzaSyDMpl_TDQNh3v4NI7bHe3ArCm5rxE_vk3w" || "AIzaSyCxcTqoUOX4mpQhV7hcHJoot_mDd1Sbi5s";
-const cx = "672ad82a944ee4d61";
-
 const showHistoryBtn = document.querySelector('.fa-history');
 const historyModal = document.querySelector('.history-modal');
 const historyContainerDOM = document.querySelectorAll('.history-container');
@@ -19,8 +15,67 @@ historyModal.addEventListener('click', () => {
     historyModal.classList.remove('active');
 
 })
-// Display user or chatbot message 
 
+function googleSearch(searchInput) {
+    if (searchInput.trim() === '') {
+        alert('Please enter a valid search query.');
+        return;
+    }
+    // alert("sex");
+    // Make a POST request to the backend
+    fetch('http://localhost:3000/googleSearch', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query: searchInput, formattedQuery: searchInput }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === "Opening...") {
+                displayMessage("Euphoria", data.message);
+                setTimeout(() => {
+                    window.location.href = data.result.link;
+                }, 500);
+            } else if (data.message === "Success") {
+                const result = data.results[0];
+                displayMessage("Euphoria", `${result.snippet}<br/>(${result.title})<br/><a target="_blank" href="${result.link}" style="color:blueviolet">Click here to view full result on Google</a>`);
+            } else {
+                displayMessage("Euphoria", "No results found");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
+        });
+}
+
+
+// Display user or chatbot message 
+function searchAndPlay(query) {
+    fetch('http://localhost:3000/searchAndPlay', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.videoLink);
+            // Redirect the user to the YouTube video link received from the backend
+            setTimeout(() => {
+                window.location.href = data.videoLink;
+            }, 500);
+            displayMessage("Euphoria", "Playing...");
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
+            displayMessage("Euphoria", 'Sorry, there was an error fetching the video.');
+
+        });
+}
 function displayMessage(user, message) {
 
     const newMessage = document.createElement('div');
@@ -167,25 +222,8 @@ async function sendMessage() {
             return;
         }
 
-
         if (query.toLowerCase().includes('play') || (query.toLowerCase().includes('play') && query.toLowerCase().includes('youtube')) || (query.toLowerCase().includes('search') && query.toLowerCase().includes('youtube'))) {
-            const youtubeSearchApiUrl = `https://www.googleapis.com/youtube/v3/search?q=${encodeURIComponent(query)}&part=snippet&key=AIzaSyAFrBrByQtCD-dbImaAkcJIvOwEyaG3eXA`;
-
-            fetch(youtubeSearchApiUrl)
-                .then(response => response.json())
-                .then(data => {
-                    const videoId = data.items[0].id.videoId;
-                    const youtubeVideoUrl = `https://www.youtube.com/watch?v=${videoId}`;
-                    setTimeout(() => {
-                        window.location.href = youtubeVideoUrl;
-                    }, 500);
-                    displayMessage("Euphoria", "Playing...");
-                })
-                .catch(error => {
-                    console.error('Error fetching YouTube API:', error);
-                    displayMessage("Euphoria", 'Sorry, there was an error fetching the video.');
-
-                });
+            searchAndPlay(formattedQuery);
             return;
         }
         if (formattedQuery.includes('search') || formattedQuery.includes('google')) {
@@ -212,75 +250,77 @@ async function sendMessage() {
             return;
         }
 
-        if (formattedQuery.includes('who is your creator') && formattedQuery.includes('who made you') || formattedQuery.includes('who are you made by') || formattedQuery.includes('who is ush') || formattedQuery.includes('who is ushnish') || formattedQuery.includes('ushnish') || formattedQuery == 'ush') {
+        if (formattedQuery.includes('who is your creator') || formattedQuery.includes('who made you') || formattedQuery.includes('who are you made by') || formattedQuery.includes('who is ush') || formattedQuery.includes('who is ushnish') || formattedQuery.includes('ushnish') || formattedQuery == 'ush') {
             displayMessage("Euphoria", `<a style="color:blueviolet;" href="https://github.com/plushexe351">Ushnish Tapaswi</a> is my creator. Is there anything I can help you with?`);
             return;
         }
 
-        try {
-            const modelResponse = await fetchOpenAIResponse(query);
-
-            // Display model response in the chat log
-
-            displayMessage("Euphoria", modelResponse);
-
-        } catch (error) {
-
-            console.error("Error fetching response from OpenAI:", error);
-
-            const googleSearchApiUrl = `https://www.googleapis.com/customsearch/v1?q=${encodeURIComponent(query)}&key=${googleSearchApiKey}&cx=${cx}`;
-
-            try {
-                const response = await fetch(googleSearchApiUrl);
-                const data = await response.json();
-
-                if (data.items && data.items.length > 0) {
-                    for (let i = 0; i < Math.min(2, data.items.length); i++) {
-                        const result = data.items[i];
-                        const title = result.title;
-                        const snippet = result.snippet;
-                        const link = result.link;
-
-                        console.log(snippet);
-
-                        if (formattedQuery.includes('open') && !formattedQuery.includes('openai')) {
-                            displayMessage("Euphoria", "Opening...")
-                            setTimeout(() => {
-                                window.location.href = link;
-                            }, 500);
-                            return;
-                        }
-
-                        displayMessage("Euphoria", `${snippet}` + `<br/>(${title})` + `<br/><a target="_blank" href="${link}" style="color:blueviolet">Click here to view full result on Google</a>`);
-                    }
-                }
-            } catch (error) {
-                console.error('Error fetching search results from Google:', error.message);
-            }
-        }
+        googleSearch(formattedQuery);
         if (formattedQuery == "clear") { container.innerHTML = ""; return; }
     }
 }
+// try {
+//     const modelResponse = await fetchOpenAIResponse(query);
+
+//     // Display model response in the chat log
+
+//     displayMessage("Euphoria", modelResponse);
+
+// } catch (error) {
+
+//     console.error("Error fetching response from OpenAI:", error);
+
+// const googleSearchApiUrl = `https://www.googleapis.com/customsearch/v1?q=${encodeURIComponent(query)}&key=${googleSearchApiKey}&cx=${cx}`;
+
+// try {
+//     const response = await fetch(googleSearchApiUrl);
+//     const data = await response.json();
+
+//     if (data.items && data.items.length > 0) {
+//         for (let i = 0; i < Math.min(2, data.items.length); i++) {
+//             const result = data.items[i];
+//             const title = result.title;
+//             const snippet = result.snippet;
+//             const link = result.link;
+
+//             console.log(snippet);
+
+//             if (formattedQuery.includes('open') && !formattedQuery.includes('openai')) {
+//                 displayMessage("Euphoria", "Opening...")
+//                 setTimeout(() => {
+//                     window.location.href = link;
+//                 }, 500);
+//                 return;
+//             }
+
+//             displayMessage("Euphoria", `${snippet}` + `<br/>(${title})` + `<br/><a target="_blank" href="${link}" style="color:blueviolet">Click here to view full result on Google</a>`);
+//         }
+//     }
+// } catch (error) {
+//     console.error('Error fetching search results from Google:', error.message);
+// }
+// }
+
 
 // fetch openAI response
 
-async function fetchOpenAIResponse(prompt) {
-    const apiUrl = "https://api.openai.com/v1/engines/davinci/completions";
-    const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${openAiApiKey}`,
-        },
-        body: JSON.stringify({
-            prompt: prompt,
-            max_tokens: 100,
-        }),
-    });
+// async function fetchOpenAIResponse(prompt) {
+//     const apiUrl = "https://api.openai.com/v1/engines/davinci/completions";
+//     const response = await fetch(apiUrl, {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json",
+//             Authorization: `Bearer ${openAiApiKey}`,
+//         },
+//         body: JSON.stringify({
+//             prompt: prompt,
+//             max_tokens: 100,
+//         }),
+//     });
 
-    const data = await response.json();
-    return data.choices[0].text.trim();
-}
+//     const data = await response.json();
+//     return data.choices[0].text.trim();
+// }
 
 
 // keyboard support 
