@@ -18,3 +18,4 @@
 - Voice Recognition
 - Weather information
 - Space information
+- OPENAI API
