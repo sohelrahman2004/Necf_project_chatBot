@@ -23,7 +23,7 @@ function googleSearch(searchInput) {
     }
     // alert("sex");
     // Make a POST request to the backend
-    fetch('/googleSearch', {
+    fetch('https://your-production-backend.com/googleSearch', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ function googleSearch(searchInput) {
 
 // Display user or chatbot message 
 function searchAndPlay(query) {
-    fetch('/searchAndPlay', {
+    fetch('https://your-production-backend.com/searchAndPlay', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
