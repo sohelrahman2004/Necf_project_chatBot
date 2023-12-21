@@ -1,12 +1,12 @@
 # EUPHORIA
 
-- A ChatGPT clone, powered by OpenAI API
+- A ChatBot powered by Google API and various other APIs
 
 ## Features
 
 - Beautiful UI
-- Opening websites
-- OpenAI integration (queries are google searched if no response from OpenAI due to insufficient quota/usage)
+- Opening websites (use keyword 'open')
+- Google Search (use keyword 'search')
 - Fetching most relevant Google search results using Google Custom Search API
 - Searching/Playing Songs on Youtube using Youtube Data Search API
 - Telling Jokes
@@ -18,7 +18,3 @@
 - Voice Recognition
 - Weather information
 - Space information
-
-## Note
-
-This is a complete Client-side website and is not best practice. Backend is in works.
