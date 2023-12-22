@@ -22,7 +22,7 @@ function googleSearch(searchInput) {
         return;
     }
     // Make a POST request to the backend
-    fetch('/googleSearch', {
+    fetch('http://localhost:3000/googleSearch', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ function googleSearch(searchInput) {
 
 // Display user or chatbot message 
 function searchAndPlay(query) {
-    fetch('/searchAndPlay', {
+    fetch('http://localhost:3000/searchAndPlay', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
