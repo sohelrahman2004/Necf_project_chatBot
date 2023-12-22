@@ -24,7 +24,7 @@ const googleApiKeyFallback = process.env.GOOGLE_API_KEY_EXTRA;
 const customSearchEngineId = process.env.CUSTOM_SEARCH_ENGINE_ID;
 const youtubeApiKey = process.env.YOUTUBE_API_KEY;
 
-app.post('https://euphoria-chat-bot.vercel.app/searchAndPlay', async (req, res) => {
+app.post('/searchAndPlay', async (req, res) => {
     const apiKey = youtubeApiKey;
     const searchInput = req.body.query;
 
@@ -49,7 +49,7 @@ app.post('https://euphoria-chat-bot.vercel.app/searchAndPlay', async (req, res) 
 
 
 
-app.post('https://euphoria-chat-bot.vercel.app/googleSearch', async (req, res) => {
+app.post('/googleSearch', async (req, res) => {
     const googleSearchApiKey = googleApiKey || googleApiKeyFallback;
     const cx = customSearchEngineId;
     const query = req.body.query;

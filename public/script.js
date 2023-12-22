@@ -21,7 +21,6 @@ function googleSearch(searchInput) {
         alert('Please enter a valid search query.');
         return;
     }
-    // alert("sex");
     // Make a POST request to the backend
     fetch('/googleSearch', {
         method: 'POST',
