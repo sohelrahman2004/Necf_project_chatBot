@@ -22,7 +22,7 @@ function googleSearch(searchInput) {
         return;
     }
     // Make a POST request to the backend
-    fetch('https://euphoria-chat-bot.vercel.app/googleSearch', {
+    fetch('/googleSearch', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ function googleSearch(searchInput) {
 
 // Display user or chatbot message 
 function searchAndPlay(query) {
-    fetch('https://euphoria-chat-bot.vercel.app/searchAndPlay', {
+    fetch('/searchAndPlay', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
