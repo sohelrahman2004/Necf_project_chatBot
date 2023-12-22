@@ -22,7 +22,7 @@ function googleSearch(searchInput) {
         return;
     }
     // Make a POST request to the backend
-    fetch('/googleSearch', {
+    fetch('https://euphoria-chat-bot.vercel.app/googleSearch', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -37,8 +37,10 @@ function googleSearch(searchInput) {
                     window.location.href = data.result.link;
                 }, 500);
             } else if (data.message === "Success") {
-                const result = data.results[0];
-                displayMessage("Euphoria", `${result.snippet}<br/>(${result.title})<br/><a target="_blank" href="${result.link}" style="color:blueviolet">Click here to view full result on Google</a>`);
+                for (let i = 0; i <= 1; i++) {
+                    const result = data.results[i];
+                    displayMessage("Euphoria", `${result.snippet}<br/>(${result.title})<br/><a target="_blank" href="${result.link}" style="color:blueviolet">Click here to view full result on Google</a>`);
+                }
             } else {
                 displayMessage("Euphoria", "No results found");
             }
@@ -52,7 +54,7 @@ function googleSearch(searchInput) {
 
 // Display user or chatbot message 
 function searchAndPlay(query) {
-    fetch('/searchAndPlay', {
+    fetch('https://euphoria-chat-bot.vercel.app/searchAndPlay', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
