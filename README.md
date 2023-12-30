@@ -19,3 +19,20 @@
 - Weather information
 - Space information
 - OPENAI API
+
+### NOTE
+
+There's some issues with the production build. Git clone and build it yourself to test the app.
+
+Git clone :
+
+(SSH)`git@github.com:plushexe351/Euphoria-ChatBot.git`
+(HTTPS)`https://github.com/plushexe351/Euphoria-ChatBot.git`
+
+To install dependencies :
+
+`npm install`
+
+Install nodemon :
+
+`npm i -g nodemon`
