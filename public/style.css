@@ -12,7 +12,7 @@
 
 body {
     position: relative;
-    background-color: rgb(23, 23, 23);
+    background-color: black;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,7 +21,7 @@ body {
 }
 
 .label {
-    color: blueviolet;
+    color: white;
     position: absolute;
     /* border: 1px solid red; */
     top: 2rem;
@@ -41,7 +41,7 @@ body {
 }
 
 a {
-    color: darkslateblue;
+    color: blue;
     text-decoration: none;
 }
 
@@ -62,14 +62,14 @@ a {
     right: 2rem;
     font-size: 1.4rem;
     float: right;
-    color: darkslateblue;
+    color: lightblue;
     cursor: pointer;
     z-index: 9999;
 }
 
 .container {
     /* background: black; */
-    background-color: rgb(23, 23, 23);
+    background-color: black;
 
     display: flex;
     width: 840px;
@@ -91,7 +91,7 @@ a {
     font-family: 'Helvetica', sans-serif;
     justify-content: center;
     flex-direction: column;
-    background: darkslateblue;
+    background: rgb(34, 34, 34);
     padding: 1rem;
     height: 5rem;
     width: 45%;
@@ -110,7 +110,7 @@ a {
     padding: 0.8rem;
     box-shadow: 0 5px 1rem rgba(110, 98, 187, 0.427);
     border-radius: 0.8rem;
-    background-color: rgb(110, 98, 187);
+    background-color: lightblue;
 }
 
 .container>div:hover .fa-arrow-up {
@@ -136,7 +136,7 @@ a {
 
 .container.chat-mode>div>h3 {
     font-size: 2.3rem;
-    color: blueviolet;
+    color: blue;
     font-family: 'dotty';
 }
 
@@ -208,7 +208,7 @@ a {
 #userMessage::placeholder {
     font-family: 'dotty';
     font-size: 2rem;
-    color: rgb(130, 114, 232);
+    color: lightblue;
 }
 
 .record {
@@ -217,7 +217,7 @@ a {
     flex-shrink: 0;
     flex-grow: 0;
     border-radius: 50%;
-    background-color: rgb(83, 71, 161);
+    background-color: lightblue;
     cursor: pointer;
 }
 
@@ -236,14 +236,14 @@ a {
 
 .send {
     width: 40px;
-    background-color: rgb(83, 71, 161);
+    background-color: lightblue;
     border-radius: 0.7rem;
     cursor: pointer;
 }
 
 .record:hover,
 .send:hover {
-    background-color: rgb(125, 113, 207);
+    background-color: lightblue;
 }
 
 .history-modal {
@@ -269,7 +269,7 @@ a {
 }
 
 .history-modal h2 {
-    color: blueviolet;
+    color: lightblue;
     text-align: center;
     font-size: 3rem;
     font-family: 'dotty';
@@ -306,7 +306,7 @@ a {
 }
 
 .time-added {
-    color: darkslateblue;
+    color: lightblue;
 }
 
 .history-modal p {

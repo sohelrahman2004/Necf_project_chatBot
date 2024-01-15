@@ -16,67 +16,67 @@ historyModal.addEventListener('click', () => {
 
 })
 
-function googleSearch(searchInput) {
-    if (searchInput.trim() === '') {
-        alert('Please enter a valid search query.');
-        return;
-    }
-    // Make a POST request to the backend
-    fetch('/googleSearch', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query: searchInput, formattedQuery: searchInput }),
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message === "Opening...") {
-                displayMessage("Euphoria", data.message);
-                setTimeout(() => {
-                    window.location.href = data.result.link;
-                }, 500);
-            } else if (data.message === "Success") {
-                for (let i = 0; i <= 1; i++) {
-                    const result = data.results[i];
-                    displayMessage("Euphoria", `${result.snippet}<br/>(${result.title})<br/><a target="_blank" href="${result.link}" style="color:blueviolet">Click here to view full result on Google</a>`);
-                }
-            } else {
-                displayMessage("Euphoria", "No results found");
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred. Please try again later.');
-        });
-}
+// function googleSearch(searchInput) {
+//     if (searchInput.trim() === '') {
+//         alert('Please enter a valid search query.');
+//         return;
+//     }
+//     // Make a POST request to the backend
+//     fetch('/googleSearch', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({ query: searchInput, formattedQuery: searchInput }),
+//     })
+//         .then(response => response.json())
+//         .then(data => {
+//             if (data.message === "Opening...") {
+//                 displayMessage("Euphoria", data.message);
+//                 setTimeout(() => {
+//                     window.location.href = data.result.link;
+//                 }, 500);
+//             } else if (data.message === "Success") {
+//                 for (let i = 0; i <= 1; i++) {
+//                     const result = data.results[i];
+//                     displayMessage("Euphoria", `${result.snippet}<br/>(${result.title})<br/><a target="_blank" href="${result.link}" style="color:blueviolet">Click here to view full result on Google</a>`);
+//                 }
+//             } else {
+//                 displayMessage("Euphoria", "No results found");
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//             alert('An error occurred. Please try again later.');
+//         });
+// }
 
 
 // Display user or chatbot message 
-function searchAndPlay(query) {
-    fetch('/searchAndPlay', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query }),
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data.videoLink);
-            // Redirect the user to the YouTube video link received from the backend
-            setTimeout(() => {
-                window.location.href = data.videoLink;
-            }, 500);
-            displayMessage("Euphoria", "Playing...");
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred. Please try again later.');
-            displayMessage("Euphoria", 'Sorry, there was an error fetching the video.');
+// function searchAndPlay(query) {
+//     fetch('/searchAndPlay', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({ query }),
+//     })
+//         .then(response => response.json())
+//         .then(data => {
+//             console.log(data.videoLink);
 
-        });
-}
+//             setTimeout(() => {
+//                 window.location.href = data.videoLink;
+//             }, 500);
+//             displayMessage("Euphoria", "Playing...");
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//             alert('An error occurred. Please try again later.');
+//             displayMessage("Euphoria", 'Sorry, there was an error fetching the video.');
+
+//         });
+// }
 function displayMessage(user, message) {
 
     const newMessage = document.createElement('div');
@@ -223,11 +223,12 @@ async function sendMessage() {
             return;
         }
 
-        if (query.toLowerCase().includes('play') || (query.toLowerCase().includes('play') && query.toLowerCase().includes('youtube')) || (query.toLowerCase().includes('search') && query.toLowerCase().includes('youtube'))) {
-            searchAndPlay(formattedQuery);
-            return;
-        }
-        if (formattedQuery.includes('search') || formattedQuery.includes('google')) {
+        // if (query.toLowerCase().includes('play') || (query.toLowerCase().includes('play') && query.toLowerCase().includes('youtube')) || (query.toLowerCase().includes('search') && query.toLowerCase().includes('youtube'))) {
+        //     searchAndPlay(formattedQuery);
+        //     return;
+        // }
+        // if (formattedQuery.includes('search') || formattedQuery.includes('google')) {
+
             query = query.replace("search", "").replace("for", "").replace("on", "").replace("google", "");
             displayMessage("Euphoria", `Searching "${query}"...`);
             const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
@@ -235,13 +236,13 @@ async function sendMessage() {
                 window.location.href = googleSearchUrl;
             }, 700);
             return;
-        }
+        // }
 
         if (formattedQuery.includes('how are you')) {
             displayMessage('Euphoria', `I'm doing well. What can I help you with?`);
             return;
         }
-        if (formattedQuery.includes('who are you') || formattedQuery.includes('introduce yourself') || formattedQuery.includes('your introduction')) {
+        if (formattedQuery.includes('who are you') ) {
             displayMessage('Euphoria', `I'm Euphoria, a chatBot powered by OpenAI and various other APIs. Is there anything I can help you with ?`);
             return;
         }
@@ -252,11 +253,11 @@ async function sendMessage() {
         }
 
         if (formattedQuery.includes('who is your creator') || formattedQuery.includes('who made you') || formattedQuery.includes('who are you made by') || formattedQuery.includes('who is ush') || formattedQuery.includes('who is ushnish') || formattedQuery.includes('ushnish') || formattedQuery == 'ush') {
-            displayMessage("Euphoria", `<a style="color:blueviolet;" href="https://github.com/plushexe351">Ushnish Tapaswi</a> is my creator. Is there anything I can help you with?`);
+            displayMessage("Euphoria", `<a style="color:blueviolet;" href="https://github.com/plushexe351">Sohel Rahman</a> is my creator. Is there anything I can help you with?`);
             return;
         }
 
-        googleSearch(formattedQuery);
+        // googleSearch(formattedQuery);
         if (formattedQuery == "clear") { container.innerHTML = ""; return; }
     }
 }
